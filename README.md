@@ -20,6 +20,10 @@ When making a guess, I make a guess in a row/col/box which is almost solved (typ
 
 Typically, we are making a guess between two possible numbers (not always but usually). We apply our guess, solve as far as we can. If we get stuck again, make another guess. If the solve fails, this means our guess was invalid in which case we go back to the previous guess we made, change and apply it and keep going as far as we can. See ``solve`` function.
 
+## Performance
+
+For the cases I tested, ``fast_solve`` always completed in less than 0.1s. With some more optimization to the Python code, times of less than 0.05s should be easily achievable. If the same code was written in C++, less than 0.01s should be achievable on most machines.
+
 ## Tests
 
 I tested the sudoku solver uses some puzzles I found in my local newspaper and on this website.
