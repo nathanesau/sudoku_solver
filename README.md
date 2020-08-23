@@ -22,7 +22,7 @@ Typically, we are making a guess between two possible numbers (not always but us
 
 ## Performance
 
-For the cases I tested, ``fast_solve`` always completed in less than 0.1s. With some more optimization to the Python code, times of less than 0.05s should be easily achievable. If the same code was written in C++, less than 0.01s should be achievable on most machines.
+For the cases I tested, ``fast_solve`` always completed in less than 0.1s. With some more optimization to the Python code, times of less than 0.05s should be easily achievable. If the same code was written in C++, less than 0.01s should be achievable on most machines. Usually no more than 4-6 guesses should be required to solve medium/hard puzzles and no more than 2-3 backtracks should be needed.
 
 ## Tests
 
