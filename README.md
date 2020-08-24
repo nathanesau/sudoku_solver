@@ -22,10 +22,13 @@ Typically, we are making a guess between two possible numbers (not always but us
 
 ## Performance
 
-For the cases I tested, ``fast_solve`` always completed in less than 0.1s. With some more optimization to the Python code, times of less than 0.05s should be easily achievable. If the same code was written in C++, less than 0.01s should be achievable on most machines. Usually no more than 4-6 guesses should be required to solve medium/hard puzzles and no more than 2-3 backtracks should be needed.
+Usually no more than 4-6 guesses should be required to solve medium/hard puzzles and no more than 2-3 backtracks should be needed.
 
-## Tests
+Benchmarks were done for Kaggle challenges:
 
-I tested the sudoku solver uses some puzzles I found in my local newspaper and on this website.
+| File                    | Time (1,000,000 puzzles) |
+| ----------------------- | ------------------------ |
+| python/fast_solve.py    | 1160 seconds             |
+| cpp/fast_solve.cpp      | 63 seconds               |
 
-https://www.researchgate.net/figure/Sudoku-puzzles-used-as-Test-Data_fig5_224113980
+The same algorithm in C++ was about 18 times faster.
