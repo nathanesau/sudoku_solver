@@ -279,6 +279,13 @@ board_t solve(const board_t &initial_board)
         }
         if (state == 1) // stuck
         {
+            if (current->child)
+            {
+                // rare case - didn't occur for 1,000,000 kaggle puzzles
+                // occurs for very very hard (unsolvable by human puzzles)
+                // go back up the tree!
+                delete current->child;
+            }
             current->child = new node_t(current->board, current, current->depth + 1, guess_t());
             current = current->child;
             current->guess = get_guess(current->board);
@@ -287,6 +294,13 @@ board_t solve(const board_t &initial_board)
         }
         if (state == 2) // failed - backtrack and change guess
         {
+            while (current->guess.opt.size() <= 1)
+            {
+                // rare case - didn't occur for 1,000,000 kaggle puzzles
+                // occurs for very very hard (unsolvable by human puzzles)
+                // go back up the tree!
+                current = current->parent;
+            }
             current->board = current->parent->board;
             current->guess.opt.erase(current->guess.opt.begin());
             int value = current->guess.opt[0];
@@ -295,7 +309,7 @@ board_t solve(const board_t &initial_board)
     }
 }
 
-void read_kaggle_line(vector<board_t> &board_list, const string &line)
+void read_board_line(vector<board_t> &board_list, const string &line)
 {
     board_t board = {{{}, {}, {}, {}, {}, {}, {}, {}, {}},
                      {{}, {}, {}, {}, {}, {}, {}, {}, {}},
@@ -317,28 +331,46 @@ void read_kaggle_line(vector<board_t> &board_list, const string &line)
     board_list.push_back(board);
 }
 
-void load_kaggle_cases(vector<board_t> &board_list, int count = 10)
+void load_cases(vector<board_t> &board_list, string file_name)
 {
-    ifstream fstream("sudoku.csv");
+    ifstream fstream(file_name);
     string line;
     getline(fstream, line); // skip first line
     while (getline(fstream, line))
     {
-        read_kaggle_line(board_list, line);
-
-        if (board_list.size() == count)
-            break;
+        read_board_line(board_list, line);
     }
 }
 
+// https://www.kaggle.com/bryanpark/sudoku
 void test_kaggle()
 {
     vector<board_t> board_list;
-    load_kaggle_cases(board_list, 1000000);
+    load_cases(board_list, "sudoku.csv");
 
     auto start_time = chrono::high_resolution_clock::now();
-    for(auto &initial_board : board_list) {
+    for (auto &initial_board : board_list)
+    {
         board_t solved_board = solve(initial_board);
+    }
+    auto end_time = chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end_time - start_time;
+    std::cout << "Elapsed time: " << elapsed.count() << " s\n";
+}
+
+// https://attractivechaos.wordpress.com/2011/06/19/an-incomplete-review-of-sudoku-solver-implementations/
+void test_extreme_cases()
+{
+    vector<board_t> board_list;
+    load_cases(board_list, "extreme.csv");
+
+    auto start_time = chrono::high_resolution_clock::now();
+    for (int i = 0; i < 50; i++)
+    {
+        for (auto &initial_board : board_list)
+        {
+            board_t solved_board = solve(initial_board);
+        }
     }
     auto end_time = chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end_time - start_time;
@@ -348,8 +380,7 @@ void test_kaggle()
 // testing code
 int main()
 {
-    // requires sudoku.csv in project folder
-    test_kaggle();
+    test_extreme_cases();
 
     return 0;
 }

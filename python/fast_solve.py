@@ -100,7 +100,7 @@ def solve(initial_board): # return solved board
         state = solve_strategy(board)
         if state == "solved":
             return board
-        if state == "stuck":
+        if state == "stuck":                
             node["board"] = copy.deepcopy(board)
             node["child"] = {"board": board, "parent": node, "depth": root["depth"] + 1}
             node = node["child"]
@@ -108,6 +108,8 @@ def solve(initial_board): # return solved board
             node["value"] = node["guess"]["options"][0]
             apply_guess(board, node["guess"], node["value"])
         if state == "failed": # backtrack - change guess
+            while len(node["guess"]["options"]) <= 1:
+                node = node["parent"]
             board = copy.deepcopy(node["parent"]["board"])
             node["board"] = copy.deepcopy(board)
             node["guess"]["options"] = node["guess"]["options"][1:]

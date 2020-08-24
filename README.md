@@ -24,7 +24,7 @@ Typically, we are making a guess between two possible numbers (not always but us
 
 Usually no more than 4-6 guesses should be required to solve medium/hard puzzles and no more than 2-3 backtracks should be needed.
 
-Benchmarks were done for Kaggle challenges:
+Benchmarks were done for Kaggle challenges (see https://www.kaggle.com/bryanpark/sudoku):
 
 | File                    | Time (1,000,000 puzzles) |
 | ----------------------- | ------------------------ |

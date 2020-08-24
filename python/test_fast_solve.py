@@ -68,6 +68,15 @@ def test_solve_hard():
     print_board(solved_board)
     validate_solve(solved_board)
 
+def test_solve_impossible():
+    initial_board = read_board("board5.csv")
+    print("\ninitial board")
+    print_board(initial_board)
+    solved_board = fast_solve.solve(initial_board)
+    print("\nsolved board")
+    print_board(solved_board)
+    validate_solve(solved_board)
+
 def read_kaggle_line(line):
     board = [[[] for j in range(9)] for i in range(9)]
     for i in range(81):
@@ -99,4 +108,5 @@ def test_kaggle():
     print("average solve time = {} seconds".format(float(end_time - start_time)/1000000))
 
 if __name__ == "__main__":
-    test_kaggle()
+    #test_kaggle()
+    test_solve_impossible()
